@@ -1,0 +1,16 @@
+$raisin: #17181f;
+$violet: #6c72cb;
+$orchid: #cb69c1;
+$cultured: #eeedf0;
+
+@mixin flex($justify, $align, $dir) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  flex-direction: $dir;
+}
+@mixin grid($col, $row) {
+  display: grid;
+  grid-template-columns: $col;
+  grid-template-rows: $row;
+}

@@ -169,6 +169,9 @@ main {
     border: none;
     outline: none;
   }
+  input::placeholder {
+    text-align: center;
+  }
   label {
     margin-bottom: 0.5rem;
   }

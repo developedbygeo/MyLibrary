@@ -1,0 +1,202 @@
+body {
+  position: relative;
+}
+header {
+  height: 10vh;
+}
+main {
+  height: 90vh;
+}
+nav {
+  background: $raisin;
+  height: 100%;
+  color: $cultured;
+  @include grid(1, 0.75fr 0.35fr);
+}
+.logo {
+  height: 100%;
+  @include flex(flex-start, flex-end, row);
+  h1 {
+    font-family: "Abril Fatface", cursive;
+    letter-spacing: 0.15rem;
+    position: relative;
+  }
+  .clr {
+    color: $orchid;
+    position: absolute;
+    left: 99%;
+    bottom: -5%;
+  }
+}
+.logo,
+.logo-text {
+  width: 95%;
+  height: 90%;
+  margin: auto;
+}
+.logo-text {
+  letter-spacing: 0.1rem;
+  font-style: italic;
+  p {
+    font-size: 1.4rem;
+  }
+}
+.add-btn {
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+}
+.add {
+  position: relative;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 100%;
+  border: none;
+  cursor: pointer;
+  background: $violet;
+  overflow: hidden;
+  i {
+    pointer-events: none;
+    color: $cultured;
+  }
+}
+.add-active {
+  background: $orchid;
+}
+.add::before {
+  content: "";
+  display: block;
+  width: 7rem;
+  height: 7rem;
+  border-radius: 100%;
+  position: absolute;
+  top: 0%;
+  transform: rotate(-45deg);
+  transition: all 0.15s ease-in-out;
+  background: rgba($color: $orchid, $alpha: 0.15);
+}
+.add:hover::before {
+  margin-left: -300%;
+}
+.add:focus {
+  animation-name: colorAnimation;
+  animation-duration: 100ms;
+}
+.add:hover {
+  -webkit-box-shadow: 3px 1px 4px -1px rgba(255, 255, 255, 0.25);
+  box-shadow: 3px 1px 4px -1px rgba(255, 255, 255, 0.25);
+}
+main {
+  background: $raisin;
+  position: relative;
+}
+.library {
+  height: 100%;
+  width: 90%;
+  margin: auto;
+  @include grid(repeat(10, 1fr), repeat(auto-fit, minmax(0.25fr, 0.5fr)));
+}
+.book {
+  color: $cultured;
+  width: 20rem;
+  height: 20rem;
+  margin-top: 2rem;
+  border: 1px solid $cultured;
+  border-radius: 0.5rem;
+  position: relative;
+  p {
+    font-size: 1.4rem;
+    margin: 0 0.5rem 0 0.5rem;
+  }
+}
+.book-delete {
+  position: absolute;
+  right: 2%;
+  top: 1%;
+  padding: 0.2rem 0.5rem;
+  border: none;
+  background: rgba($color: $raisin, $alpha: 0.85);
+  cursor: pointer;
+  i {
+    pointer-events: none;
+    color: $cultured;
+    font-size: 1.3rem;
+  }
+}
+.add-book {
+  display: none;
+  position: absolute;
+  z-index: 2;
+  width: 80%;
+  border: 1px solid white;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  background: rgba($color: $raisin, $alpha: 0.85);
+  backdrop-filter: blur(100%);
+}
+.add-book-close {
+  position: absolute;
+  right: 0%;
+  padding: 0.2rem 0.5rem;
+  border: none;
+  background: rgba($color: $raisin, $alpha: 0.85);
+  cursor: pointer;
+  i {
+    pointer-events: none;
+    color: $cultured;
+    font-size: 1.3rem;
+  }
+}
+.add-book-active {
+  display: block;
+}
+// Blur effect when add-book is active
+.library-inactive {
+  filter: blur(0.15rem);
+}
+.field {
+  @include flex(center, center, column);
+  margin-bottom: 2rem;
+  width: 100%;
+  input,
+  select {
+    width: 80%;
+  }
+  input {
+    border-radius: 0.5rem;
+    border: none;
+    outline: none;
+  }
+  label {
+    margin-bottom: 0.5rem;
+  }
+}
+.add-title {
+  margin-top: 1rem;
+}
+.add-buttons {
+  @include flex(space-between, center, row);
+  width: 80%;
+  margin: auto;
+  border: 1px solid red;
+  margin-bottom: 1rem;
+}
+.add-book-btn,
+.clear-book-btn {
+  width: 8rem;
+  height: 3rem;
+  border: none;
+  outline: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  color: white;
+  letter-spacing: 0.1rem;
+}
+.add-book-btn {
+  background: rgba($color: $violet, $alpha: 0.75);
+}
+.clear-book-btn {
+  background: rgba($color: $orchid, $alpha: 0.75);
+}

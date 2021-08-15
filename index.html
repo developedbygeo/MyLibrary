@@ -39,6 +39,9 @@
     <main>
       <section class="library">
         <div class="book">
+          <button title="Delete book" class="book-delete">
+            <i class="fas fa-times"></i>
+          </button>
           <div class="title">
             <h2>Test Title</h2>
           </div>
@@ -54,33 +57,56 @@
           <div class="info-publishing">
             <p>Published on: <span class="publishing"></span></p>
           </div>
-          <div class="info-read">Read: <span class="read"></span></div>
+          <div class="info-read">
+            <p>Read: <span class="read"></span></p>
+          </div>
         </div>
       </section>
       <div class="add-book">
+        <button class="add-book-close"><i class="fas fa-times"></i></button>
         <div class="add-title field">
-          <label for="title">Title</label>
-          <input type="text" name="title" id="title" />
+          <label for="title" class="field-label">Title</label>
+          <input type="text" name="title" id="title" class="title-field data" />
         </div>
         <div class="add-author field">
-          <label for="author">Author</label>
-          <input type="text" name="author" id="author" />
+          <label for="author" ar class="field-label">Author</label>
+          <input
+            type="text"
+            name="author"
+            id="author"
+            class="author-field data"
+          />
         </div>
         <div class="add-pages field">
-          <label for="pages">Number of pages</label>
-          <input type="number" name="pages" id="pages" />
+          <label for="pages" class="field-label">Number of pages</label>
+          <input
+            type="number"
+            name="pages"
+            id="pages"
+            class="pages-field data"
+          />
         </div>
         <div class="add-language field">
           <label for="language">Language</label>
-          <input type="text" name="language" id="language" />
+          <input
+            type="text"
+            name="language"
+            id="language"
+            class="language-field data"
+          />
         </div>
         <div class="add-date field">
           <label for="pubate">Publishing date</label>
-          <input type="date" name="pubdate" id="pubdate" />
+          <input
+            type="date"
+            name="pubdate"
+            id="pubdate"
+            class="date-field data"
+          />
         </div>
         <div class="add-read-status field">
           <label for="read"></label>
-          <select name="read" id="read">
+          <select name="read" id="read" class="read-field">
             <option selected disabled value="question">
               Have you read it yet?
             </option>
@@ -95,7 +121,10 @@
       </div>
     </main>
     <div class="add-btn">
-      <button class="add"><i class="fas fa-plus"></i></button>
+      <button title="Add new book" class="add">
+        <i class="fas fa-plus"></i>
+      </button>
     </div>
+    <script src="./app.js"></script>
   </body>
 </html>

@@ -38,10 +38,7 @@
     </header>
     <main>
       <section class="library">
-        <div class="book">
-          <button title="Delete book" class="book-delete">
-            <i class="fas fa-times"></i>
-          </button>
+        <!-- <div class="book">
           <div class="title">
             <h2>Test Title</h2>
           </div>
@@ -55,12 +52,20 @@
             <p>Language: <span class="language"></span></p>
           </div>
           <div class="info-publishing">
-            <p>Published on: <span class="publishing"></span></p>
+            <p>Date:<span class="publishing"></span></p>
           </div>
           <div class="info-read">
             <p>Read: <span class="read"></span></p>
           </div>
-        </div>
+          <div class="book-buttons">
+            <button title="Change read status" class="book-button-read">
+              <i class="fas fa-check"></i>
+            </button>
+            <button title="Remove selected book" class="book-button-delete">
+              <i class="far fa-trash-alt"></i>
+            </button>
+          </div>
+        </div> -->
       </section>
       <div class="add-book">
         <button class="add-book-close"><i class="fas fa-times"></i></button>
@@ -126,5 +131,35 @@
       </button>
     </div>
     <script src="./app.js"></script>
+    <template class="book-structure">
+      <div class="book">
+        <div class="title">
+          <h2 class="book-title"></h2>
+        </div>
+        <div class="info-author">
+          <p>By:<span class="author"></span></p>
+        </div>
+        <div class="info-pages">
+          <p>Pages:<span class="pages"></span></p>
+        </div>
+        <div class="info-language">
+          <p>Language: <span class="language"></span></p>
+        </div>
+        <div class="info-publishing">
+          <p>Date:<span class="publishing"></span></p>
+        </div>
+        <div class="info-read">
+          <p>Read: <span class="read"></span></p>
+        </div>
+        <div class="book-buttons">
+          <button title="Change read status" class="book-button-read">
+            <i class="fas fa-check"></i>
+          </button>
+          <button title="Remove selected book" class="book-button-delete">
+            <i class="far fa-trash-alt"></i>
+          </button>
+        </div>
+      </div>
+    </template>
   </body>
 </html>

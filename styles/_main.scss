@@ -89,12 +89,13 @@ nav {
 main {
   background: $raisin;
   position: relative;
+  height: auto;
 }
 .library {
   height: 100%;
   width: 90%;
   margin: auto;
-  @include grid(repeat(2, 1fr), repeat(auto-fit, minmax(100px, 0.5fr)));
+  @include grid(repeat(2, 1fr), repeat(auto-fit, minmax(150px, 0.35fr)));
 }
 .book {
   color: $cultured;
@@ -211,4 +212,15 @@ main {
 }
 .clear-book-btn {
   background: rgba($color: $orchid, $alpha: 0.75);
+}
+.error-msg {
+  letter-spacing: 0.1rem;
+  color: $orchid;
+  display: none;
+}
+.error-active {
+  display: block;
+}
+.error-div {
+  border: 2px solid $orchid;
 }

@@ -1,6 +1,7 @@
 let myLibrary = [];
 let objectArray = [];
 let newBook;
+let allBooks = JSON.parse(localStorage.getItem("allBooks"));
 class Book {
   constructor(title, author, pages, language, date, status) {
     this.title = title;
@@ -27,6 +28,8 @@ const bookDate = document.querySelector(".date-field");
 const bookStatus = document.querySelector(".read-field");
 
 // Event Listeners
+window.addEventListener("DOMContentLoaded", localStorageCheck);
+
 openBookFormBtn.addEventListener("click", () => {
   addBookForm.classList.toggle("add-book-active");
   library.classList.toggle("library-inactive");
@@ -42,14 +45,16 @@ closeBookFormBtn.addEventListener("click", () => {
 
 commitBookEntryBtn.addEventListener("click", () => {
   // fieldChecker();
-  if (fieldChecker()) {
+  if (fieldChecker() && bookExistsChecker()) {
     console.log("truuuu");
     temporaryEntry();
     clearEntries();
-    // populateObject();
     adjustLayout(populateObject());
     menuToggle();
-    console.log(objectArray);
+    // console.log(objectArray);
+    // localStorageCheck();
+    // localStorageHandler();
+    setToLocalStorage();
     newBook = new Book();
     myLibrary = [];
   } else {
@@ -76,17 +81,50 @@ function fieldChecker() {
   allFields.forEach((field) => {
     let fieldName = field.name.charAt(0).toUpperCase() + field.name.slice(1);
     if (field.value.length >= 1) {
-      // return true;
       counter++;
     } else {
-      field.style.border = "2px solid red";
-      field.placeholder = `${fieldName} is required`;
+      field.style.border = "3px solid #cb69c1";
+      field.placeholder = `${fieldName} is required.`;
     }
   });
-  if (counter === 5) {
+  if (counter === 4) {
     return true;
   } else {
     return false;
+  }
+}
+// Checks whether title already exists and pops an error if it does
+function bookExistsChecker() {
+  const titleParentDiv = document.querySelector(".add-title");
+  let counter = 0;
+  if (allBooks === null) {
+    return true;
+  } else if (allBooks !== null) {
+    allBooks.forEach((book) => {
+      const errorComment = document.querySelector(".error-msg");
+      const bookTitleField =
+        bookTitle.name.charAt(0).toUpperCase() + bookTitle.name.slice(1);
+      if (book.title === bookTitle.value) {
+        console.log("Error");
+        errorComment.classList.add("error-active");
+        errorComment.textContent = `${bookTitleField} already exists.`;
+        // TODO only one error comment should exist. Can fix that with a fixed p in HTMl
+        // and only modify the textContent (instead of creating an element)
+        titleParentDiv.appendChild(errorComment);
+        ++counter;
+      } else {
+        counter += 0;
+        // errorComment.classList.remove("error-active");
+      }
+    });
+    if (counter > 0) {
+      return false;
+    } else {
+      console.log(titleParentDiv.lastElementChild);
+      titleParentDiv.lastElementChild.remove();
+      // TODO Fix to delete p instead of the field
+      return true;
+    }
   }
 }
 function clearEntries() {
@@ -101,7 +139,7 @@ function populateObject() {
   // const { title, author, pages, language, date, status } = myLibrary;
   // let newBook = new Book(title, author, pages, language, date, status);
   newBook.id = objectArray.length;
-  objectArray.unshift(newBook);
+  objectArray.push(newBook);
   return newBook;
 }
 function menuToggle() {
@@ -131,4 +169,34 @@ function adjustLayout(book) {
   library.appendChild(tempCopy);
   const addedBook = library.lastElementChild;
   addedBook.setAttribute("id", id);
+}
+// function localStorageCheck() {
+//   // parses any localStorage Entries
+//   if (allBooks.length === 0) {
+//     localStorage.setItem("allBooks", JSON.stringify(objectArray));
+//     console.log("Setting item to localstorage");
+//     console.log(objectArray);
+//   } else {
+//     console.log("Books found");
+//     allBooks = JSON.parse(localStorage.getItem("allBooks"));
+//     allBooks.forEach((book) => {
+//       adjustLayout(book);
+//     });
+//   }
+// }
+function localStorageCheck() {
+  // parses any localStorage entries
+  if (allBooks === null) {
+    return;
+  } else if (allBooks.length > 0) {
+    console.log("Books found");
+    // allBooks = JSON.parse(localStorage.getItem("allBooks"));
+    allBooks.forEach((book) => {
+      adjustLayout(book);
+      objectArray.push(book);
+    });
+  }
+}
+function setToLocalStorage() {
+  localStorage.setItem("allBooks", JSON.stringify(objectArray));
 }

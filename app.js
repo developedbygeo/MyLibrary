@@ -17,6 +17,7 @@ const library = document.querySelector(".library");
 const openBookFormBtn = document.querySelector(".add");
 const closeBookFormBtn = document.querySelector(".add-book-close");
 const commitBookEntryBtn = document.querySelector(".add-book-btn");
+const clearBookEntryBtn = document.querySelector(".clear-book-btn");
 // Form & Form Fields (inputs)
 const addBookForm = document.querySelector(".add-book");
 const allFields = document.querySelectorAll(".data");
@@ -29,6 +30,8 @@ const bookStatus = document.querySelector(".read-field");
 
 // Event Listeners
 window.addEventListener("DOMContentLoaded", localStorageCheck);
+window.addEventListener("DOMContentLoaded", applyMethods);
+window.addEventListener("load", handleRead);
 
 openBookFormBtn.addEventListener("click", () => {
   addBookForm.classList.toggle("add-book-active");
@@ -55,6 +58,7 @@ commitBookEntryBtn.addEventListener("click", () => {
     // localStorageCheck();
     // localStorageHandler();
     setToLocalStorage();
+    applyMethods();
     newBook = new Book();
     myLibrary = [];
   } else {
@@ -62,6 +66,7 @@ commitBookEntryBtn.addEventListener("click", () => {
     return;
   }
 });
+clearBookEntryBtn.addEventListener("click", clearEntries);
 
 // Functions
 function temporaryEntry() {
@@ -122,7 +127,6 @@ function bookExistsChecker() {
     } else {
       console.log(titleParentDiv.lastElementChild);
       titleParentDiv.lastElementChild.remove();
-      // TODO Fix to delete p instead of the field
       return true;
     }
   }
@@ -199,4 +203,68 @@ function localStorageCheck() {
 }
 function setToLocalStorage() {
   localStorage.setItem("allBooks", JSON.stringify(objectArray));
+}
+// handles read button and applies method to existing obj
+function applyMethods() {
+  objectArray.forEach((book) => {
+    addRead(book);
+    addDelete(book);
+  });
+}
+
+function addRead(book) {
+  if (!book.read) {
+    book.read = function () {
+      if (book.status === "no") {
+        book.status = "yes";
+      } else if (book.status === "yes") {
+        book.status = "no";
+      } else {
+        book.status = "yes";
+      }
+    };
+  } else {
+    return;
+  }
+}
+// TODO fix the deleteProcess
+function addDelete(book) {
+  book.deleteStatus = false;
+  if (!book.deleteProcess) {
+    book.deleteProcess = function () {
+      delete Object.entries(book);
+    };
+  }
+}
+function handleRead() {
+  const readBtns = document.querySelectorAll(".book-button-read");
+  if (readBtns) {
+    readBtns.forEach((button) =>
+      button.addEventListener("click", () => {
+        // gets the respective read span
+        const readSpan =
+          button.offsetParent.children[5].lastElementChild.childNodes[1];
+        // getting the parent with the identifier id
+        const parentDivID = button.offsetParent.id;
+        console.log(button);
+        console.log(readSpan);
+        switch (readSpan.textContent) {
+          case "Not Provided":
+            readSpan.textContent = "Yes";
+            break;
+          case "Yes":
+            readSpan.textContent = "No";
+            break;
+          case "No":
+            readSpan.textContent = "Yes";
+            break;
+        }
+        // update the object in the objectArray and passes it to localStorage
+        objectArray[parentDivID].status = readSpan.textContent;
+        setToLocalStorage();
+      })
+    );
+  } else {
+    return;
+  }
 }

@@ -89,7 +89,7 @@ nav {
 main {
   background: $raisin;
   position: relative;
-  height: auto;
+  height: minmax(100vh, auto);
 }
 .library {
   height: 100%;

@@ -156,6 +156,7 @@ nav {
 main {
   background: #17181f;
   position: relative;
+  height: minmax(100vh, auto);
 }
 
 .library {
@@ -164,7 +165,7 @@ main {
   margin: auto;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(auto-fit, minmax(100px, 0.5fr));
+  grid-template-rows: repeat(auto-fit, minmax(150px, 0.35fr));
 }
 
 .book {
@@ -314,5 +315,19 @@ main {
 
 .clear-book-btn {
   background: rgba(203, 105, 193, 0.75);
+}
+
+.error-msg {
+  letter-spacing: 0.1rem;
+  color: #cb69c1;
+  display: none;
+}
+
+.error-active {
+  display: block;
+}
+
+.error-div {
+  border: 2px solid #cb69c1;
 }
 /*# sourceMappingURL=style.css.map */

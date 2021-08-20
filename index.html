@@ -120,6 +120,58 @@
           <button class="clear-book-btn">Clear</button>
         </div>
       </div>
+      <div class="update-book">
+        <button class="edit-book-close"><i class="fas fa-times"></i></button>
+        <div class="edit-title edit-field">
+          <label for="edit-title-field">Title</label>
+          <input
+            type="text"
+            name="title"
+            id="edit-title-field"
+            class="edit-input"
+          />
+        </div>
+        <div class="edit-author edit-field">
+          <label for="edit-author-field">Author</label>
+          <input
+            type="text"
+            name="author"
+            id="edit-author-field"
+            class="edit-input"
+          />
+        </div>
+        <div class="edit-pages edit-field">
+          <label for="edit-pages-field">Pages</label>
+          <input
+            type="number"
+            name="pages"
+            id="edit-pages-field"
+            class="edit-input"
+          />
+        </div>
+        <div class="edit-language edit-field">
+          <label for="edit-language-field">Language</label>
+          <input
+            type="text"
+            name="language"
+            id="edit-language-field"
+            class="edit-input"
+          />
+        </div>
+        <div class="edit-date edit-field">
+          <label for="edit-date-field">Date</label>
+          <input
+            type="date"
+            name="date"
+            id="edit-date-field"
+            class="edit-input"
+          />
+        </div>
+        <div class="edit-buttons">
+          <button class="edit-book-btn">Confirm</button>
+          <button class="discard-edits-btn">Discard</button>
+        </div>
+      </div>
     </main>
     <div class="add-btn">
       <button title="Add new book" class="add">
@@ -132,26 +184,29 @@
         <div class="title">
           <h2 class="book-title"></h2>
         </div>
-        <div class="info-author">
-          <p>By:<span class="author"></span></p>
+        <div class="info-author book-data">
+          <p>By: <span class="author"></span></p>
         </div>
-        <div class="info-pages">
-          <p>Pages:<span class="pages"></span></p>
+        <div class="info-pages book-data">
+          <p>Pages: <span class="pages"></span></p>
         </div>
-        <div class="info-language">
+        <div class="info-language book-data">
           <p>Language: <span class="language"></span></p>
         </div>
-        <div class="info-publishing">
-          <p>Date:<span class="publishing"></span></p>
+        <div class="info-publishing book-data">
+          <p>Date: <span class="publishing"></span></p>
         </div>
         <div class="info-read">
           <p>Read: <span class="read"></span></p>
         </div>
-        <div class="book-buttons">
+        <div class="book-buttons book-data">
           <button title="Change read status" class="book-button-read">
             <i class="fas fa-check"></i>
           </button>
-          <button title="Remove selected book" class="book-button-delete">
+          <button title="Edit book" class="book-button-edit">
+            <i class="fas fa-pencil-alt"></i>
+          </button>
+          <button title="Remove book" class="book-button-delete">
             <i class="far fa-trash-alt"></i>
           </button>
         </div>

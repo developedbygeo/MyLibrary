@@ -42,7 +42,7 @@ nav {
   }
 }
 .add-btn {
-  position: absolute;
+  position: fixed;
   bottom: 5%;
   right: 5%;
 }
@@ -89,18 +89,22 @@ nav {
 main {
   background: $raisin;
   position: relative;
-  height: minmax(100vh, auto);
+  height: auto;
+  min-height: 100vh;
 }
 .library {
   height: 100%;
-  width: 90%;
+  width: 95%;
   margin: auto;
-  @include grid(repeat(2, 1fr), repeat(auto-fit, minmax(150px, 0.35fr)));
+  @include grid(repeat(2, 1fr), repeat(auto-fit, minmax(180px, 0.35fr)));
+  justify-items: center;
 }
 .book {
   color: $cultured;
-  width: auto;
-  height: 20rem;
+  width: 20rem;
+  min-width: 20rem;
+  height: auto;
+  min-height: 20rem;
   margin-top: 2rem;
   border: 1px solid $cultured;
   border-radius: 0.5rem;
@@ -111,13 +115,24 @@ main {
     margin: 0 0.5rem 0 0.5rem;
   }
 }
+.title {
+  overflow-wrap: anywhere;
+  h2 {
+    font-size: 1.9rem;
+  }
+}
+.book-data {
+  margin-top: 0.2rem;
+  // @include grid(repeat(2, 1fr), 1fr);
+}
 .book-buttons {
   @include flex(flex-start, center, row);
 }
 .book-button-read,
+.book-button-edit,
 .book-button-delete {
   cursor: pointer;
-  width: 50%;
+  width: 33.33%;
   border: none;
   outline: none;
   padding-block: 0.5rem;
@@ -130,10 +145,15 @@ main {
 .book-button-read {
   background: $violet;
 }
+.book-button-edit {
+  background: $raisin2;
+}
 .book-button-delete {
   background: $orchid;
 }
-.add-book {
+
+.add-book,
+.update-book {
   display: none;
   position: absolute;
   z-index: 2;
@@ -146,7 +166,8 @@ main {
   background: rgba($color: $raisin, $alpha: 0.85);
   backdrop-filter: blur(100%);
 }
-.add-book-close {
+.add-book-close,
+.edit-book-close {
   position: absolute;
   right: 0%;
   padding: 0.2rem 0.5rem;
@@ -159,14 +180,17 @@ main {
     font-size: 1.3rem;
   }
 }
-.add-book-active {
+.add-book-active,
+.update-book-active {
   display: block;
 }
+
 // Blur effect when add-book is active
 .library-inactive {
   filter: blur(0.15rem);
 }
-.field {
+.field,
+.edit-field {
   @include flex(center, center, column);
   margin-bottom: 2rem;
   width: 100%;
@@ -186,18 +210,22 @@ main {
     margin-bottom: 0.5rem;
   }
 }
-.add-title {
+
+.add-title,
+.edit-title {
   margin-top: 1rem;
 }
-.add-buttons {
+.add-buttons,
+.edit-buttons {
   @include flex(space-between, center, row);
   width: 80%;
   margin: auto;
-  border: 1px solid red;
   margin-bottom: 1rem;
 }
 .add-book-btn,
-.clear-book-btn {
+.clear-book-btn,
+.edit-book-btn,
+.discard-edits-btn {
   width: 8rem;
   height: 3rem;
   border: none;
@@ -207,10 +235,12 @@ main {
   color: white;
   letter-spacing: 0.1rem;
 }
-.add-book-btn {
+.add-book-btn,
+.edit-book-btn {
   background: rgba($color: $violet, $alpha: 0.75);
 }
-.clear-book-btn {
+.clear-book-btn,
+.discard-edits-btn {
   background: rgba($color: $orchid, $alpha: 0.75);
 }
 .error-msg {

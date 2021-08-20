@@ -2,6 +2,7 @@ let myLibrary = [];
 let objectArray = [];
 let newBook;
 let allBooks = JSON.parse(localStorage.getItem("allBooks"));
+let targetedObj;
 class Book {
   constructor(title, author, pages, language, date, status) {
     this.title = title;
@@ -32,11 +33,14 @@ const bookStatus = document.querySelector(".read-field");
 window.addEventListener("DOMContentLoaded", localStorageCheck);
 window.addEventListener("DOMContentLoaded", applyMethods);
 window.addEventListener("load", handleRead);
+window.addEventListener('load', handleDelete);
+window.addEventListener('load', enableEditing);
 
 openBookFormBtn.addEventListener("click", () => {
   addBookForm.classList.toggle("add-book-active");
   library.classList.toggle("library-inactive");
   openBookFormBtn.classList.add("add-active");
+  clearEntries()
   setTimeout(() => {
     openBookFormBtn.classList.remove("add-active");
   }, 300);
@@ -47,20 +51,23 @@ closeBookFormBtn.addEventListener("click", () => {
 });
 
 commitBookEntryBtn.addEventListener("click", () => {
-  // fieldChecker();
   if (fieldChecker() && bookExistsChecker()) {
     console.log("truuuu");
     temporaryEntry();
     clearEntries();
     adjustLayout(populateObject());
     menuToggle();
-    // console.log(objectArray);
-    // localStorageCheck();
-    // localStorageHandler();
     setToLocalStorage();
     applyMethods();
+    handleRead()
+    handleDelete()
+    enableEditing()
     newBook = new Book();
     myLibrary = [];
+    allFields.forEach(field=>{
+      field.style.border = 'none';
+      field.placeholder = ''
+    })
   } else {
     console.log("falseeeeeee");
     return;
@@ -105,7 +112,7 @@ function bookExistsChecker() {
   if (allBooks === null) {
     return true;
   } else if (allBooks !== null) {
-    allBooks.forEach((book) => {
+    objectArray.forEach((book) => {
       const errorComment = document.querySelector(".error-msg");
       const bookTitleField =
         bookTitle.name.charAt(0).toUpperCase() + bookTitle.name.slice(1);
@@ -113,20 +120,18 @@ function bookExistsChecker() {
         console.log("Error");
         errorComment.classList.add("error-active");
         errorComment.textContent = `${bookTitleField} already exists.`;
-        // TODO only one error comment should exist. Can fix that with a fixed p in HTMl
-        // and only modify the textContent (instead of creating an element)
-        titleParentDiv.appendChild(errorComment);
+        console.log('ERRAWR')
         ++counter;
       } else {
         counter += 0;
-        // errorComment.classList.remove("error-active");
       }
     });
     if (counter > 0) {
       return false;
     } else {
+      const errorComment = document.querySelector(".error-msg");
       console.log(titleParentDiv.lastElementChild);
-      titleParentDiv.lastElementChild.remove();
+      errorComment.textContent = '';
       return true;
     }
   }
@@ -136,6 +141,7 @@ function clearEntries() {
     field.value = "";
   });
   bookStatus.selectedIndex = 0;
+  bookDate.value = ''
 }
 // Creating new book through the constructor & assigning new id based on array length.
 function populateObject() {
@@ -227,12 +233,14 @@ function addRead(book) {
     return;
   }
 }
-// TODO fix the deleteProcess
 function addDelete(book) {
   book.deleteStatus = false;
   if (!book.deleteProcess) {
     book.deleteProcess = function () {
-      delete Object.entries(book);
+      Object.keys(book).forEach((key) => {
+        delete book[key];
+      });
+      delete book
     };
   }
 }
@@ -268,3 +276,121 @@ function handleRead() {
     return;
   }
 }
+// function handleDelete(){
+//   const deleteBtns = document.querySelectorAll('.book-button-delete');
+//   if(deleteBtns){
+//     deleteBtns.forEach(button=>
+//       button.addEventListener('click', ()=>{
+//       const parentDivID = button.offsetParent.id
+//       const parentDiv = button.offsetParent
+//       // console.log(parentDiv)
+//       const targetedObj = objectArray.find(function(book){
+//         if(book.id == parentDivID){
+//           book.deleteProcess()
+//         }
+//       })
+//       // objectArray[parentDivID].deleteProcess();
+//       // objectArray.splice(parentDivID, 1)
+//       parentDiv.remove()
+//       // remapID()
+//       setToLocalStorage();
+//     }))
+//   }
+//   else{
+//     return;
+//   }
+// }
+function handleDelete(){
+  const deleteBtns = document.querySelectorAll('.book-button-delete')
+  if(deleteBtns){
+        deleteBtns.forEach(button=>{
+      const parentDivID = button.offsetParent.id
+      const parentDiv = button.offsetParent
+      button.addEventListener('click', ()=>{
+         targetedObj = objectArray.find(function(book, index){
+          if(book){
+          if(book.id == parentDivID){
+          // console.log(`This is the index ${index}`);
+          // console.log(`This is bookID ${book.id}`)
+          // console.log(`This is parentID ${parentDivID}`)
+      objectArray.splice(index, 1)
+      parentDiv.remove();
+      setToLocalStorage();
+    } else{
+      return
+    }
+          }
+        })
+      })
+        })
+
+  }else{
+    return;
+  }
+}
+// allows for individual book editing and pushes to localStorage
+function enableEditing(){
+  const editBtns = document.querySelectorAll('.book-button-edit');
+  const editForm = document.querySelector('.update-book');
+  const titleEditInput = document.querySelector('#edit-title-field')
+  const authorEditInput = document.querySelector('#edit-author-field')
+  const pagesEditInput = document.querySelector('#edit-pages-field')
+  const languageEditInput = document.querySelector('#edit-language-field')
+  const dateEditInput = document.querySelector('#edit-date-field')
+  const confirmBtn = document.querySelector('.edit-book-btn');
+  const discardBtn = document.querySelector('.discard-edits-btn')
+  const closeBtn = document.querySelector('.edit-book-close');
+  editBtns.forEach(button=>button.addEventListener('click', ()=>{
+    const parentDivID = button.offsetParent.id
+    const parentDiv = button.offsetParent
+    const parentTitle = parentDiv.querySelector('.book-title')
+    const parentAuthor = parentDiv.querySelector('.author')
+    const parentPages = parentDiv.querySelector('.pages')
+    const parentLanguage = parentDiv.querySelector('.language')
+    const parentDate = parentDiv.querySelector('.publishing')
+    const {title, author, pages, language, date} = objectArray[parentDivID]
+    editForm.classList.toggle('update-book-active')
+    library.classList.toggle('library-inactive');
+    titleEditInput.value = title;
+    authorEditInput.value = author;
+    pagesEditInput.value = pages;
+    languageEditInput.value = language;
+    dateEditInput.value = date;
+    confirmBtn.addEventListener('click', ()=>{
+      objectArray[parentDivID].title = parentTitle.textContent = titleEditInput.value;
+      objectArray[parentDivID].author = parentAuthor.textContent = authorEditInput.value;
+      objectArray[parentDivID].pages = parentPages.textContent = pagesEditInput.value;
+      objectArray[parentDivID].language = parentLanguage.textContent = languageEditInput.value;
+      objectArray[parentDivID].date = parentDate.textContent = dateEditInput.value;
+      editForm.classList.remove('update-book-active');
+      library.classList.remove('library-inactive')
+      setToLocalStorage();
+    })
+  }))
+  discardBtn.addEventListener('click', ()=>{
+    const allEditFields = document.querySelectorAll('.edit-input');
+    allEditFields.forEach(field=>field.value = '')
+    editForm.classList.remove('update-book-active');
+    library.classList.remove('library-inactive');
+  })
+  closeBtn.addEventListener('click', ()=>{
+    editForm.classList.remove('update-book-active')
+    library.classList.remove('library-inactive')
+  })
+}
+// function remapID(){
+//   const allCurrentBooks = document.querySelectorAll('.book');
+//   allCurrentBooks.forEach(book=>{
+//     objectArray.forEach(object=>{
+//       book.setAttribute("id", object.id)
+//     })
+//   })
+// }
+
+
+// function reassignID(){
+//   // objectArray.forEach(object=>console.log(object.id))
+//   const allCurrentBooks = document.querySelectorAll('.book');
+//   allCurrentBooks.forEach(book=>console.log(book.getAttribute("id")))
+
+// }

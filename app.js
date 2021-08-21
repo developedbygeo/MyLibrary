@@ -310,9 +310,6 @@ function handleDelete(){
          targetedObj = objectArray.find(function(book, index){
           if(book){
           if(book.id == parentDivID){
-          // console.log(`This is the index ${index}`);
-          // console.log(`This is bookID ${book.id}`)
-          // console.log(`This is parentID ${parentDivID}`)
       objectArray.splice(index, 1)
       parentDiv.remove();
       setToLocalStorage();
@@ -378,19 +375,3 @@ function enableEditing(){
     library.classList.remove('library-inactive')
   })
 }
-// function remapID(){
-//   const allCurrentBooks = document.querySelectorAll('.book');
-//   allCurrentBooks.forEach(book=>{
-//     objectArray.forEach(object=>{
-//       book.setAttribute("id", object.id)
-//     })
-//   })
-// }
-
-
-// function reassignID(){
-//   // objectArray.forEach(object=>console.log(object.id))
-//   const allCurrentBooks = document.querySelectorAll('.book');
-//   allCurrentBooks.forEach(book=>console.log(book.getAttribute("id")))
-
-// }

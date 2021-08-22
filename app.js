@@ -28,8 +28,12 @@ const bookPages = document.querySelector(".pages-field");
 const bookLanguage = document.querySelector(".language-field");
 const bookDate = document.querySelector(".date-field");
 const bookStatus = document.querySelector(".read-field");
-
-
+// Edit Fields
+const editParentTitle = document.querySelector('#edit-title-field');
+const editParentAuthor = document.querySelector('#edit-author-field');
+const editParentPages = document.querySelector('#edit-pages-field');
+const editParentLanguage = document.querySelector('#edit-language-field');
+const editParentDate = document.querySelector('#edit-date-field');
 
 // Event Listeners
 window.addEventListener("DOMContentLoaded", localStorageCheck);
@@ -295,55 +299,52 @@ function handleDelete(){
 }
 // allows for individual book editing and pushes to localStorage
 function enableEditing(){
+  // Buttons and Form
   const editBtns = document.querySelectorAll('.book-button-edit');
-  const editForm = document.querySelector('.update-book');
-  const titleEditInput = document.querySelector('#edit-title-field')
-  const authorEditInput = document.querySelector('#edit-author-field')
-  const pagesEditInput = document.querySelector('#edit-pages-field')
-  const languageEditInput = document.querySelector('#edit-language-field')
-  const dateEditInput = document.querySelector('#edit-date-field')
   const confirmBtn = document.querySelector('.edit-book-btn');
   const discardBtn = document.querySelector('.discard-edits-btn')
   const closeBtn = document.querySelector('.edit-book-close');
-  editBtns.forEach(button=>button.addEventListener('click', ()=>{
-    const parentDivID = button.offsetParent.id
-    const parentDiv = button.offsetParent
-    const target = objectArray.find(book=>book.id == parentDivID)
-    console.log(target)
-    console.log(parentDivID)
-    const parentTitle = parentDiv.querySelector('.book-title')
-    const parentAuthor = parentDiv.querySelector('.author')
-    const parentPages = parentDiv.querySelector('.pages')
-    const parentLanguage = parentDiv.querySelector('.language')
-    const parentDate = parentDiv.querySelector('.publishing')
-    const {title, author, pages, language, date} = target
+  const editForm = document.querySelector('.update-book');
+  const objectIDSignifier = editForm.querySelector('.book-id')
+  // loops over and finds the respective book based on id
+  editBtns.forEach(button=>button.addEventListener('click', (e)=>{
+    const bookObj = objectArray.find(book=>book.id == e.target.offsetParent.id);
     editForm.classList.toggle('update-book-active')
     library.classList.toggle('library-inactive');
-    titleEditInput.value = title;
-    authorEditInput.value = author;
-    pagesEditInput.value = pages;
-    languageEditInput.value = language;
-    dateEditInput.value = date;
+    const {title, author, pages, language, date} = bookObj;
+    editParentTitle.value = title;
+    editParentAuthor.value = author;
+    editParentPages.value = pages;
+    editParentLanguage.value = language;
+    editParentDate.value = date;
+    objectIDSignifier.textContent = bookObj.id
+  }))
     confirmBtn.addEventListener('click', ()=>{
-      target.title = parentTitle.textContent = titleEditInput.value;
-      target.author = parentAuthor.textContent = authorEditInput.value;
-      target.pages = parentPages.textContent = pagesEditInput.value;
-      target.language = parentLanguage.textContent = languageEditInput.value;
-      target.date = parentDate.textContent = dateEditInput.value;
+      const bookObj = objectArray.find(book=>book.id == objectIDSignifier.textContent)
+      const parentDiv = document.getElementById(`${objectIDSignifier.textContent}`)
+      const parentTitleDiv = parentDiv.querySelector('.book-title');
+      const parentAuthorDiv = parentDiv.querySelector('.author');
+      const parentPagesDiv = parentDiv.querySelector('.pages');
+      const parentLanguageDiv = parentDiv.querySelector('.language');
+      const parentDateDiv = parentDiv.querySelector('.publishing');
+      bookObj.title = parentTitleDiv.innerText = editParentTitle.value;
+      bookObj.author = parentAuthorDiv.textContent = editParentAuthor.value;
+      bookObj.pages = parentPagesDiv.textContent = editParentPages.value;
+      bookObj.language = parentLanguageDiv.textContent = editParentLanguage.value;
+      bookObj.date = parentDateDiv.textContent = editParentDate.value;
       editForm.classList.remove('update-book-active');
       library.classList.remove('library-inactive')
       setToLocalStorage();
     })
-  }))
-  discardBtn.addEventListener('click', ()=>{
-    const allEditFields = document.querySelectorAll('.edit-input');
-    allEditFields.forEach(field=>field.value = '')
-    editForm.classList.remove('update-book-active');
-    library.classList.remove('library-inactive');
+    discardBtn.addEventListener('click', ()=>{
+      const allEditFields = document.querySelectorAll('.edit-input');
+      allEditFields.forEach(field=>field.value = '')
+      editForm.classList.remove('update-book-active');
+      library.classList.remove('library-inactive');
   })
-  closeBtn.addEventListener('click', ()=>{
-    editForm.classList.remove('update-book-active')
-    library.classList.remove('library-inactive')
+    closeBtn.addEventListener('click', ()=>{
+      editForm.classList.remove('update-book-active')
+      library.classList.remove('library-inactive')
   })
 }
 
@@ -361,14 +362,3 @@ function dateHandling(){
   let currentDate = `${year}-${month}-${day}`
   bookDate.setAttribute("max", currentDate)
   }
-// // cleans any null entries
-// function objectArrayCleaner(){
-//   objectArray.forEach(book=>{
-//     const nullBook = objectArray.findIndex(book => book == null);
-//     // if(book == null){
-//     //   console.log(`${book} is null, index ${nullBook}`)
-//     // }
-//     objectArray.splice(nullBook, 1)
-//     setToLocalStorage();
-//   })
-// }

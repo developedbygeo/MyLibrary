@@ -186,6 +186,9 @@ nav {
     font-size: 1.3rem;
   }
 }
+.edit-book-close {
+  z-index: 5;
+}
 .add-book-active,
 .update-book-active {
   display: block;
@@ -220,6 +223,17 @@ nav {
 .add-title,
 .edit-title {
   margin-top: 1rem;
+}
+.edit-title {
+  position: relative;
+}
+.book-id {
+  color: transparent;
+  font-size: 0.1rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
 }
 .add-buttons,
 .edit-buttons {

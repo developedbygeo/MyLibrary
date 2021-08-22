@@ -29,9 +29,12 @@ const bookLanguage = document.querySelector(".language-field");
 const bookDate = document.querySelector(".date-field");
 const bookStatus = document.querySelector(".read-field");
 
+
+
 // Event Listeners
 window.addEventListener("DOMContentLoaded", localStorageCheck);
 window.addEventListener("DOMContentLoaded", applyMethods);
+window.addEventListener("DOMContentLoaded", dateHandling);
 window.addEventListener("load", handleRead);
 window.addEventListener('load', handleDelete);
 window.addEventListener('load', enableEditing);
@@ -146,9 +149,7 @@ function clearEntries() {
 // Creating new book through the constructor & assigning new id based on array length.
 function populateObject() {
   let newBook = new Book(...myLibrary);
-  // const { title, author, pages, language, date, status } = myLibrary;
-  // let newBook = new Book(title, author, pages, language, date, status);
-  newBook.id = objectArray.length;
+  newBook.id = performance.now()
   objectArray.push(newBook);
   return newBook;
 }
@@ -167,6 +168,7 @@ function adjustLayout(book) {
   const bookLang = tempCopy.querySelector(".language");
   const bookDate = tempCopy.querySelector(".publishing");
   const bookReadStatus = tempCopy.querySelector(".read");
+  if(book){
   const { title, author, pages, language, date, status, id } = book;
   [
     bookTitle.textContent,
@@ -179,21 +181,11 @@ function adjustLayout(book) {
   library.appendChild(tempCopy);
   const addedBook = library.lastElementChild;
   addedBook.setAttribute("id", id);
+}else{
+  return;
 }
-// function localStorageCheck() {
-//   // parses any localStorage Entries
-//   if (allBooks.length === 0) {
-//     localStorage.setItem("allBooks", JSON.stringify(objectArray));
-//     console.log("Setting item to localstorage");
-//     console.log(objectArray);
-//   } else {
-//     console.log("Books found");
-//     allBooks = JSON.parse(localStorage.getItem("allBooks"));
-//     allBooks.forEach((book) => {
-//       adjustLayout(book);
-//     });
-//   }
-// }
+}
+
 function localStorageCheck() {
   // parses any localStorage entries
   if (allBooks === null) {
@@ -219,6 +211,7 @@ function applyMethods() {
 }
 
 function addRead(book) {
+  if(book){
   if (!book.read) {
     book.read = function () {
       if (book.status === "no") {
@@ -232,8 +225,12 @@ function addRead(book) {
   } else {
     return;
   }
+}else{
+  return;
+}
 }
 function addDelete(book) {
+  if(book){
   book.deleteStatus = false;
   if (!book.deleteProcess) {
     book.deleteProcess = function () {
@@ -243,6 +240,9 @@ function addDelete(book) {
       delete book
     };
   }
+}else{
+  return;
+}
 }
 function handleRead() {
   const readBtns = document.querySelectorAll(".book-button-read");
@@ -254,8 +254,7 @@ function handleRead() {
           button.offsetParent.children[5].lastElementChild.childNodes[1];
         // getting the parent with the identifier id
         const parentDivID = button.offsetParent.id;
-        console.log(button);
-        console.log(readSpan);
+        const target = objectArray.find(book=>(book.id) == parentDivID);
         switch (readSpan.textContent) {
           case "Not Provided":
             readSpan.textContent = "Yes";
@@ -268,7 +267,7 @@ function handleRead() {
             break;
         }
         // update the object in the objectArray and passes it to localStorage
-        objectArray[parentDivID].status = readSpan.textContent;
+        target.status = readSpan.textContent;
         setToLocalStorage();
       })
     );
@@ -276,54 +275,23 @@ function handleRead() {
     return;
   }
 }
-// function handleDelete(){
-//   const deleteBtns = document.querySelectorAll('.book-button-delete');
-//   if(deleteBtns){
-//     deleteBtns.forEach(button=>
-//       button.addEventListener('click', ()=>{
-//       const parentDivID = button.offsetParent.id
-//       const parentDiv = button.offsetParent
-//       // console.log(parentDiv)
-//       const targetedObj = objectArray.find(function(book){
-//         if(book.id == parentDivID){
-//           book.deleteProcess()
-//         }
-//       })
-//       // objectArray[parentDivID].deleteProcess();
-//       // objectArray.splice(parentDivID, 1)
-//       parentDiv.remove()
-//       // remapID()
-//       setToLocalStorage();
-//     }))
-//   }
-//   else{
-//     return;
-//   }
-// }
+
 function handleDelete(){
-  const deleteBtns = document.querySelectorAll('.book-button-delete')
-  if(deleteBtns){
-        deleteBtns.forEach(button=>{
+    const deleteBtns = document.querySelectorAll('.book-button-delete')
+    if(deleteBtns){
+      deleteBtns.forEach(button=>{
       const parentDivID = button.offsetParent.id
       const parentDiv = button.offsetParent
       button.addEventListener('click', ()=>{
-         targetedObj = objectArray.find(function(book, index){
-          if(book){
-          if(book.id == parentDivID){
-      objectArray.splice(index, 1)
-      parentDiv.remove();
-      setToLocalStorage();
-    } else{
-      return
-    }
-          }
-        })
+        const targetIndex = objectArray.findIndex(book=>(book.id) == parentDivID)
+        objectArray.splice(targetIndex, 1);
+        parentDiv.remove();
+        setToLocalStorage();
       })
-        })
-
-  }else{
-    return;
-  }
+      })
+    }else{
+      return;
+    }
 }
 // allows for individual book editing and pushes to localStorage
 function enableEditing(){
@@ -340,12 +308,15 @@ function enableEditing(){
   editBtns.forEach(button=>button.addEventListener('click', ()=>{
     const parentDivID = button.offsetParent.id
     const parentDiv = button.offsetParent
+    const target = objectArray.find(book=>book.id == parentDivID)
+    console.log(target)
+    console.log(parentDivID)
     const parentTitle = parentDiv.querySelector('.book-title')
     const parentAuthor = parentDiv.querySelector('.author')
     const parentPages = parentDiv.querySelector('.pages')
     const parentLanguage = parentDiv.querySelector('.language')
     const parentDate = parentDiv.querySelector('.publishing')
-    const {title, author, pages, language, date} = objectArray[parentDivID]
+    const {title, author, pages, language, date} = target
     editForm.classList.toggle('update-book-active')
     library.classList.toggle('library-inactive');
     titleEditInput.value = title;
@@ -354,11 +325,11 @@ function enableEditing(){
     languageEditInput.value = language;
     dateEditInput.value = date;
     confirmBtn.addEventListener('click', ()=>{
-      objectArray[parentDivID].title = parentTitle.textContent = titleEditInput.value;
-      objectArray[parentDivID].author = parentAuthor.textContent = authorEditInput.value;
-      objectArray[parentDivID].pages = parentPages.textContent = pagesEditInput.value;
-      objectArray[parentDivID].language = parentLanguage.textContent = languageEditInput.value;
-      objectArray[parentDivID].date = parentDate.textContent = dateEditInput.value;
+      target.title = parentTitle.textContent = titleEditInput.value;
+      target.author = parentAuthor.textContent = authorEditInput.value;
+      target.pages = parentPages.textContent = pagesEditInput.value;
+      target.language = parentLanguage.textContent = languageEditInput.value;
+      target.date = parentDate.textContent = dateEditInput.value;
       editForm.classList.remove('update-book-active');
       library.classList.remove('library-inactive')
       setToLocalStorage();
@@ -375,3 +346,29 @@ function enableEditing(){
     library.classList.remove('library-inactive')
   })
 }
+
+// Date handling
+function dateHandling(){
+  const today = new Date();
+  let day = today.getDate();
+  let month = today.getMonth()+1;
+  let year = today.getFullYear();
+  if(day<10){
+    day = `0${day}`
+  }if(month<10){
+    month = `0${month}`
+  }
+  let currentDate = `${year}-${month}-${day}`
+  bookDate.setAttribute("max", currentDate)
+  }
+// // cleans any null entries
+// function objectArrayCleaner(){
+//   objectArray.forEach(book=>{
+//     const nullBook = objectArray.findIndex(book => book == null);
+//     // if(book == null){
+//     //   console.log(`${book} is null, index ${nullBook}`)
+//     // }
+//     objectArray.splice(nullBook, 1)
+//     setToLocalStorage();
+//   })
+// }

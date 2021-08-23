@@ -19,7 +19,10 @@ const openBookFormBtn = document.querySelector(".add");
 const closeBookFormBtn = document.querySelector(".add-book-close");
 const commitBookEntryBtn = document.querySelector(".add-book-btn");
 const clearBookEntryBtn = document.querySelector(".clear-book-btn");
+const statsBtn = document.querySelector('.my-stats-btn')
+const statsCloseBtn = document.querySelector('.stats-close')
 // Form & Form Fields (inputs)
+const statsPage = document.querySelector('.my-stats')
 const addBookForm = document.querySelector(".add-book");
 const allFields = document.querySelectorAll(".data");
 const bookTitle = document.querySelector(".title-field");
@@ -42,6 +45,15 @@ window.addEventListener("DOMContentLoaded", dateHandling);
 window.addEventListener("load", handleRead);
 window.addEventListener('load', handleDelete);
 window.addEventListener('load', enableEditing);
+window.addEventListener("load", calculateStats)
+
+statsBtn.addEventListener('click', ()=>{
+  statsPage.classList.toggle('my-stats-active');
+
+})
+statsCloseBtn.addEventListener('click', ()=>{
+  statsPage.classList.remove('my-stats-active')
+})
 
 openBookFormBtn.addEventListener("click", () => {
   addBookForm.classList.toggle("add-book-active");
@@ -59,7 +71,6 @@ closeBookFormBtn.addEventListener("click", () => {
 
 commitBookEntryBtn.addEventListener("click", () => {
   if (fieldChecker() && bookExistsChecker()) {
-    console.log("truuuu");
     temporaryEntry();
     clearEntries();
     adjustLayout(populateObject());
@@ -69,6 +80,7 @@ commitBookEntryBtn.addEventListener("click", () => {
     handleRead()
     handleDelete()
     enableEditing()
+    calculateStats()
     newBook = new Book();
     myLibrary = [];
     allFields.forEach(field=>{
@@ -76,7 +88,6 @@ commitBookEntryBtn.addEventListener("click", () => {
       field.placeholder = ''
     })
   } else {
-    console.log("falseeeeeee");
     return;
   }
 });
@@ -362,3 +373,90 @@ function dateHandling(){
   let currentDate = `${year}-${month}-${day}`
   bookDate.setAttribute("max", currentDate)
   }
+
+// Stats
+
+function calculateStats(){
+  const booksRead = document.querySelector('.books-read');
+  const booksTotal = document.querySelector('.books-total');
+  const outOfSpans = document.querySelectorAll('.outof')
+  const pagesRead = document.querySelector('.pages-read');
+  const pagesTotal = document.querySelector('.pages-total');
+  const authorsUnique = document.querySelector('.unique-authors');
+  const favoriteAuthor = document.querySelector('.favorite-author');
+  const favoriteLanguage = document.querySelector('.language-one');
+  const dateAverage = document.querySelector('.average-date');
+  const parentheses = document.querySelectorAll('.parenthesis')
+  let readBooks = 0;
+  let totalBooks = 0;
+  let readPages = 0;
+  let totalPages = 0;
+  let authorsArray = []
+  let languageArray = []
+  let dateArray = []
+  if(objectArray.length > 0){
+  // total read books and read pages
+  objectArray.find(object=>{
+    if(object.status == "Yes"){
+      readBooks++;
+      readPages += +object.pages
+    }
+  })
+  // total books
+  objectArray.forEach(object=>{
+    totalBooks++
+    totalPages += +object.pages
+    authorsArray.push(object.author)
+    languageArray.push(object.language)
+    if(object.date.length > 0){
+      dateArray.push(object.date)
+    }
+  })
+  // find unique
+  const unique = (value, index, self) =>{
+    return self.indexOf(value) === index
+  }
+  // filtering to find the total of unique authors
+  let uniqueAuthors = authorsArray.filter(unique)
+  // finding the most common in specified array (author or language)
+  function mostCommon(array){
+    const hash = array.reduce((acc, val)=>{
+      acc[val] = (acc[val] || 0) +1
+      return acc
+    },{})
+    return Object.keys(hash).reduce((a, b)=> hash[a] > hash[b] ? a:b)
+  }
+  console.log(mostCommon(uniqueAuthors))
+  // finding the average publishing date
+  function averageDate(){
+    let formattedStrings = [];
+    dateArray.forEach(date=>{
+      const substring = date.substring(0,4);
+      formattedStrings.push(substring);
+    })
+    const formattedDateNumbers = formattedStrings.map(i=>Number(i))
+    const result = Math.round(formattedDateNumbers.reduce((p, c)=>p + c, 0) / formattedStrings.length)
+    return result;
+  }
+  function percentageCalc(a, b){
+    return Math.round((((100 * a) / b) + Number.EPSILON)*100)/100
+  }
+  outOfSpans.forEach(span=>span.textContent = ' out of ')
+  booksRead.textContent = readBooks;
+  booksTotal.textContent = `${totalBooks} - (${percentageCalc(readBooks, totalBooks)}%)`;
+  pagesRead.textContent = readPages;
+  pagesTotal.textContent = `${totalPages} - (${percentageCalc(readPages, totalPages)}%)`;
+  authorsUnique.textContent = mostCommon(uniqueAuthors).length
+  favoriteAuthor.textContent = mostCommon(authorsArray);
+  favoriteLanguage.textContent = mostCommon(languageArray)
+  dateAverage.textContent = averageDate();
+} else{
+  booksRead.textContent = 'Data Unavailable';
+  pagesRead.textContent = 'Data Unavailable';
+  authorsUnique.textContent = 'Data Unavailable';
+  favoriteAuthor.textContent = 'Data Unavailable';
+  favoriteLanguage.textContent = 'Data Unavailable';
+  dateAverage.textContent = 'Data Unavailable';
+  return;
+}
+}

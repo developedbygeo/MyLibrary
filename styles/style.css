@@ -45,6 +45,7 @@ h4 {
 
 body {
   position: relative;
+  background: #17181f;
 }
 
 header {
@@ -52,13 +53,16 @@ header {
 }
 
 main {
-  height: 90vh;
+  position: relative;
+  height: auto;
+  min-height: 100vh;
 }
 
 nav {
   background: #17181f;
   height: 100%;
   color: #eeedf0;
+  position: relative;
   display: grid;
   grid-template-columns: 1;
   grid-template-rows: 0.75fr 0.35fr;
@@ -99,6 +103,96 @@ nav {
 
 .logo-text p {
   font-size: 1.4rem;
+}
+
+.stats {
+  position: absolute;
+  top: 32%;
+  right: 4%;
+}
+
+.stats-close {
+  position: absolute;
+  top: 32%;
+  right: 2%;
+}
+
+.my-stats-btn,
+.stats-close {
+  outline: none;
+  border: none;
+  background: transparent;
+}
+
+.my-stats-btn i,
+.stats-close i {
+  color: #eeedf0;
+  font-size: 2.5rem;
+  transition: all 300ms ease-in-out;
+  cursor: pointer;
+}
+
+.my-stats-btn i:hover,
+.stats-close i:hover {
+  transform: rotate(360deg) scale(1.1);
+}
+
+.my-stats {
+  display: none;
+  position: fixed;
+  right: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 10;
+  background: #17181f;
+}
+
+.stats-header {
+  height: 10vh;
+  position: relative;
+  width: 95%;
+  margin: auto;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+}
+
+.stats-header h1 {
+  letter-spacing: 0.1rem;
+  margin-top: 2rem;
+  font-family: "Abril Fatface", cursive;
+}
+
+.stats-header .stats-head {
+  color: #cb69c1;
+}
+
+.my-stats-active {
+  display: block;
+}
+
+.stat-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 95%;
+  margin: auto;
+  margin-top: 10rem;
+  height: 40vh;
+}
+
+.stat-info p,
+.stat-info span {
+  font-size: 1.7rem;
+  letter-spacing: 0.1rem;
+}
+
+.stat-info .stat-field {
+  margin-left: 1rem;
+  color: #cb69c1;
+  letter-spacing: 0.15rem;
 }
 
 .add-btn {
@@ -153,36 +247,32 @@ nav {
   box-shadow: 3px 1px 4px -1px rgba(255, 255, 255, 0.25);
 }
 
-main {
-  background: #17181f;
-  position: relative;
-  height: auto;
-  min-height: 100vh;
-}
-
 .library {
   height: 100%;
   width: 95%;
   margin: auto;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(auto-fit, minmax(180px, 0.35fr));
+  grid-template-rows: repeat(auto-fit, minmax(230px, 0.35fr));
+  row-gap: 3rem;
+  margin-top: 3rem;
   justify-items: center;
 }
 
 .book {
+  overflow-wrap: anywhere;
   color: #eeedf0;
-  width: 20rem;
-  min-width: 20rem;
+  width: 95%;
+  min-width: 30vw;
   height: auto;
-  min-height: 20rem;
-  margin-top: 2rem;
-  border: 1px solid #eeedf0;
+  min-height: 30vh;
+  border: 1px solid rgba(238, 237, 240, 0.25);
+  border-bottom: none;
   border-radius: 0.5rem;
   position: relative;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 1fr repeat(5, 0.7fr) 0.6fr;
+  grid-template-rows: minmax(65px, auto) repeat(5, 0.4fr) 0.6fr;
 }
 
 .book p {
@@ -191,22 +281,30 @@ main {
 }
 
 .title {
-  overflow-wrap: anywhere;
+  margin: 0.75rem;
 }
 
 .title h2 {
   font-size: 1.9rem;
 }
 
-.book-data {
+.book-data,
+.info-read {
   margin-top: 0.2rem;
+  margin-inline: 0.5rem;
+}
+
+.info {
+  letter-spacing: 0.1rem;
+  margin-inline-start: 0.3rem;
 }
 
 .book-buttons {
   display: flex;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-end;
   flex-direction: row;
+  margin-top: 2rem;
 }
 
 .book-button-read,
@@ -242,7 +340,7 @@ main {
 .add-book,
 .update-book {
   display: none;
-  position: absolute;
+  position: fixed;
   z-index: 2;
   width: 80%;
   border: 1px solid white;
@@ -257,7 +355,7 @@ main {
 .add-book-close,
 .edit-book-close {
   position: absolute;
-  right: 0%;
+  right: 1%;
   padding: 0.2rem 0.5rem;
   border: none;
   background: rgba(23, 24, 31, 0.85);
@@ -269,6 +367,10 @@ main {
   pointer-events: none;
   color: #eeedf0;
   font-size: 1.3rem;
+}
+
+.edit-book-close {
+  z-index: 5;
 }
 
 .add-book-active,
@@ -319,6 +421,19 @@ main {
   margin-top: 1rem;
 }
 
+.edit-title {
+  position: relative;
+}
+
+.book-id {
+  color: transparent;
+  font-size: 0.1rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
 .add-buttons,
 .edit-buttons {
   display: flex;
@@ -366,5 +481,110 @@ main {
 
 .error-div {
   border: 2px solid #cb69c1;
+}
+
+footer {
+  height: 5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.footer-text {
+  margin-right: 1rem;
+}
+
+.footer-text p {
+  font-size: 1.3rem;
+  color: #eeedf0;
+}
+
+.footer-text .dev {
+  letter-spacing: 0.15rem;
+  font-style: italic;
+}
+
+.gh-link i {
+  font-size: 1.7rem;
+  color: #eeedf0;
+  transition: all 300ms ease-in-out;
+}
+
+.gh-link i:hover {
+  transform: rotate(360deg) scale(1.1);
+}
+
+@media screen and (max-width: 260px) {
+  html {
+    font-size: 31.5%;
+  }
+  .book {
+    grid-template-rows: 1.5fr repeat(5, 0.7fr) 0.6fr;
+  }
+  .data,
+  .date-field,
+  .read-field {
+    font-size: 2rem;
+  }
+  .book-button-read,
+  .book-button-edit,
+  .book-button-delete {
+    padding-block: 0.35rem;
+  }
+}
+
+@media screen and (min-width: 375px) and (min-height: 812px) and (max-width: 480px) {
+  .library {
+    grid-template-rows: repeat(auto-fit, minmax(245px, 0.35fr));
+    row-gap: 2vh;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .library {
+    grid-template-rows: repeat(auto-fit, minmax(calc(330px + 5vh), 0.35fr));
+  }
+  .book {
+    min-width: 0;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1000px) {
+  html {
+    font-size: 55.5%;
+  }
+  .library {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .book {
+    width: 30vw;
+    grid-template-rows: minmax(100px, auto) repeat(5, 0.4fr) 0.6fr;
+  }
+  .add-book,
+  .update-book {
+    width: 60%;
+  }
+}
+
+@media screen and (min-width: 1001px) and (max-width: 1500px) {
+  html {
+    font-size: 62.5%;
+  }
+  .library {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  .book {
+    min-height: 35vh;
+  }
+}
+
+@media screen and (min-width: 1500px) {
+  html {
+    font-size: 67%;
+  }
+  .library {
+    grid-template-columns: repeat(6, 1fr);
+  }
 }
 /*# sourceMappingURL=style.css.map */

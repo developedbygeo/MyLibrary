@@ -1,0 +1,67 @@
+@media screen and (max-width: 260px) {
+  html {
+    font-size: 31.5%;
+  }
+  .book {
+    grid-template-rows: 1.5fr repeat(5, 0.7fr) 0.6fr;
+  }
+  .data,
+  .date-field,
+  .read-field {
+    font-size: 2rem;
+  }
+  .book-button-read,
+  .book-button-edit,
+  .book-button-delete {
+    padding-block: 0.35rem;
+  }
+}
+@media screen and (min-width: 375px) and (min-height: 812px) and (max-width: 480px) {
+  .library {
+    grid-template-rows: repeat(auto-fit, minmax(245px, 0.35fr));
+    row-gap: 2vh;
+  }
+}
+@media screen and (min-width: 768px) {
+  .library {
+    grid-template-rows: repeat(auto-fit, minmax(calc(330px + 5vh), 0.35fr));
+  }
+  .book {
+    min-width: 0;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 1000px) {
+  html {
+    font-size: 55.5%;
+  }
+  .library {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .book {
+    width: 30vw;
+    grid-template-rows: minmax(100px, auto) repeat(5, 0.4fr) 0.6fr;
+  }
+  .add-book,
+  .update-book {
+    width: 60%;
+  }
+}
+@media screen and (min-width: 1001px) and (max-width: 1500px) {
+  html {
+    font-size: 62.5%;
+  }
+  .library {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  .book {
+    min-height: 35vh;
+  }
+}
+@media screen and (min-width: 1500px) {
+  html {
+    font-size: 67%;
+  }
+  .library {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}

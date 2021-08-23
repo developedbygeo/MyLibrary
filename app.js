@@ -49,8 +49,8 @@ window.addEventListener("load", calculateStats)
 
 statsBtn.addEventListener('click', ()=>{
   statsPage.classList.toggle('my-stats-active');
-
 })
+
 statsCloseBtn.addEventListener('click', ()=>{
   statsPage.classList.remove('my-stats-active')
 })
@@ -386,7 +386,6 @@ function calculateStats(){
   const favoriteAuthor = document.querySelector('.favorite-author');
   const favoriteLanguage = document.querySelector('.language-one');
   const dateAverage = document.querySelector('.average-date');
-  const parentheses = document.querySelectorAll('.parenthesis')
   let readBooks = 0;
   let totalBooks = 0;
   let readPages = 0;

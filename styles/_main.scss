@@ -14,6 +14,7 @@ nav {
   background: $raisin;
   height: 100%;
   color: $cultured;
+  position: relative;
   @include grid(1, 0.75fr 0.35fr);
 }
 .logo {
@@ -42,6 +43,76 @@ nav {
   font-style: italic;
   p {
     font-size: 1.4rem;
+  }
+}
+.stats {
+  position: absolute;
+  top: 32%;
+  right: 4%;
+}
+.stats-close {
+  position: absolute;
+  top: 32%;
+  right: 2%;
+}
+.my-stats-btn,
+.stats-close {
+  outline: none;
+  border: none;
+  background: transparent;
+  i {
+    color: $cultured;
+    font-size: 2.5rem;
+    transition: all 300ms ease-in-out;
+    cursor: pointer;
+  }
+  i:hover {
+    transform: rotate(360deg) scale(1.1);
+  }
+}
+.my-stats {
+  display: none;
+  position: fixed;
+  right: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 10;
+  background: $raisin;
+}
+.stats-header {
+  height: 10vh;
+  position: relative;
+  width: 95%;
+  margin: auto;
+  @include flex(flex-start, center, row);
+  h1 {
+    letter-spacing: 0.1rem;
+    margin-top: 2rem;
+    font-family: "Abril Fatface", cursive;
+  }
+  .stats-head {
+    color: $orchid;
+  }
+}
+.my-stats-active {
+  display: block;
+}
+
+.stat-info {
+  @include flex(space-between, flex-start, column);
+  width: 95%;
+  margin: auto;
+  margin-top: 10rem;
+  height: 40vh;
+  p,
+  span {
+    font-size: 1.7rem;
+    letter-spacing: 0.1rem;
+  }
+  .stat-field {
+    margin-left: 1rem;
+    color: $orchid;
+    letter-spacing: 0.15rem;
   }
 }
 .add-btn {
@@ -94,22 +165,21 @@ nav {
   width: 95%;
   margin: auto;
   @include grid(repeat(2, 1fr), repeat(auto-fit, minmax(230px, 0.35fr)));
-  row-gap: 1rem;
+  row-gap: 3rem;
+  margin-top: 3rem;
   justify-items: center;
 }
 .book {
   overflow-wrap: anywhere;
   color: $cultured;
-  width: 45vw;
+  width: 95%;
   min-width: 30vw;
   height: auto;
-  min-height: 35vh;
-  margin-top: 2rem;
+  min-height: 30vh;
   border: 1px solid rgba($color: $cultured, $alpha: 0.25);
   border-bottom: none;
   border-radius: 0.5rem;
   position: relative;
-  // @include grid(1fr, auto repeat(5, 0.7fr) 0.6fr);
   @include grid(1fr, minmax(65px, auto) repeat(5, 0.4fr) 0.6fr);
   p {
     font-size: 1.4rem;
@@ -133,6 +203,7 @@ nav {
 }
 .book-buttons {
   @include flex(flex-start, flex-end, row);
+  margin-top: 2rem;
 }
 .book-button-read,
 .book-button-edit,

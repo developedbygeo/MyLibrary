@@ -247,7 +247,6 @@ nav {
 
 .add-book,
 .update-book {
-  // display: none;
   visibility: hidden;
   opacity: 0;
   position: fixed;
@@ -281,7 +280,6 @@ nav {
 }
 .add-book-active,
 .update-book-active {
-  // display: block;
   visibility: visible;
   opacity: 1;
 }

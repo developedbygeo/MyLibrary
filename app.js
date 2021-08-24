@@ -135,10 +135,8 @@ function bookExistsChecker() {
       const bookTitleField =
         bookTitle.name.charAt(0).toUpperCase() + bookTitle.name.slice(1);
       if (book.title === bookTitle.value) {
-        console.log("Error");
         errorComment.classList.add("error-active");
         errorComment.textContent = `${bookTitleField} already exists.`;
-        console.log('ERRAWR')
         ++counter;
       } else {
         counter += 0;
@@ -148,7 +146,6 @@ function bookExistsChecker() {
       return false;
     } else {
       const errorComment = document.querySelector(".error-msg");
-      console.log(titleParentDiv.lastElementChild);
       errorComment.textContent = '';
       return true;
     }
@@ -206,7 +203,6 @@ function localStorageCheck() {
   if (allBooks === null) {
     return;
   } else if (allBooks.length > 0) {
-    console.log("Books found");
     // allBooks = JSON.parse(localStorage.getItem("allBooks"));
     allBooks.forEach((book) => {
       adjustLayout(book);
@@ -284,6 +280,7 @@ function handleRead() {
         // update the object in the objectArray and passes it to localStorage
         target.status = readSpan.textContent;
         setToLocalStorage();
+        calculateStats();
       })
     );
   } else {
@@ -425,7 +422,6 @@ function calculateStats(){
     },{})
     return Object.keys(hash).reduce((a, b)=> hash[a] > hash[b] ? a:b)
   }
-  console.log(mostCommon(uniqueAuthors))
   // finding the average publishing date
   function averageDate(){
     let formattedStrings = [];

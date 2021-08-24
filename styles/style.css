@@ -137,14 +137,20 @@ nav {
   transform: rotate(360deg) scale(1.1);
 }
 
+.stats-close i:hover {
+  transform: none;
+}
+
 .my-stats {
-  display: none;
+  visibility: hidden;
+  opacity: 0;
   position: fixed;
   right: 0;
   height: 100vh;
   width: 100vw;
   z-index: 10;
   background: #17181f;
+  transition: all 250ms linear;
 }
 
 .stats-header {
@@ -169,7 +175,8 @@ nav {
 }
 
 .my-stats-active {
-  display: block;
+  visibility: visible;
+  opacity: 1;
 }
 
 .stat-info {
@@ -193,6 +200,17 @@ nav {
   margin-left: 1rem;
   color: #cb69c1;
   letter-spacing: 0.15rem;
+}
+
+.stats-footer {
+  position: absolute;
+  bottom: 0%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
 }
 
 .add-btn {
@@ -253,7 +271,7 @@ nav {
   margin: auto;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(auto-fit, minmax(230px, 0.35fr));
+  grid-template-rows: auto;
   row-gap: 3rem;
   margin-top: 3rem;
   justify-items: center;
@@ -339,7 +357,8 @@ nav {
 
 .add-book,
 .update-book {
-  display: none;
+  visibility: hidden;
+  opacity: 0;
   position: fixed;
   z-index: 2;
   width: 80%;
@@ -350,6 +369,7 @@ nav {
   color: white;
   background: rgba(23, 24, 31, 0.85);
   backdrop-filter: blur(100%);
+  transition: all 300ms linear;
 }
 
 .add-book-close,
@@ -375,7 +395,8 @@ nav {
 
 .add-book-active,
 .update-book-active {
-  display: block;
+  visibility: visible;
+  opacity: 1;
 }
 
 .library-inactive {
@@ -536,17 +557,31 @@ footer {
 
 @media screen and (min-width: 375px) and (min-height: 812px) and (max-width: 480px) {
   .library {
-    grid-template-rows: repeat(auto-fit, minmax(245px, 0.35fr));
     row-gap: 2vh;
+  }
+}
+
+@media screen and (min-width: 500px) {
+  .add-book,
+  .update-book {
+    width: 65%;
   }
 }
 
 @media screen and (min-width: 768px) {
   .library {
-    grid-template-rows: repeat(auto-fit, minmax(calc(330px + 5vh), 0.35fr));
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
   }
   .book {
     min-width: 0;
+  }
+}
+
+@media screen and (min-width: 800px) and (min-height: 1280px) {
+  .stats {
+    top: 42%;
   }
 }
 
@@ -563,6 +598,23 @@ footer {
   }
   .add-book,
   .update-book {
+    width: 60%;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .add-book,
+  .update-book {
+    width: 50%;
+  }
+  .edit-field input,
+  .edit-field select,
+  .field input,
+  .field select {
+    width: 60%;
+  }
+  .add-buttons,
+  .edit-buttons {
     width: 60%;
   }
 }

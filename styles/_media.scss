@@ -18,16 +18,26 @@
 }
 @media screen and (min-width: 375px) and (min-height: 812px) and (max-width: 480px) {
   .library {
-    grid-template-rows: repeat(auto-fit, minmax(245px, 0.35fr));
     row-gap: 2vh;
+  }
+}
+@media screen and (min-width: 500px) {
+  .add-book,
+  .update-book {
+    width: 65%;
   }
 }
 @media screen and (min-width: 768px) {
   .library {
-    grid-template-rows: repeat(auto-fit, minmax(calc(330px + 5vh), 0.35fr));
+    @include grid(repeat(2, 1fr), auto);
   }
   .book {
     min-width: 0;
+  }
+}
+@media screen and (min-width: 800px) and (min-height: 1280px) {
+  .stats {
+    top: 42%;
   }
 }
 @media screen and (min-width: 768px) and (max-width: 1000px) {
@@ -43,6 +53,23 @@
   }
   .add-book,
   .update-book {
+    width: 60%;
+  }
+}
+@media screen and (min-width: 800px) {
+  .add-book,
+  .update-book {
+    width: 50%;
+  }
+  .edit-field,
+  .field {
+    input,
+    select {
+      width: 60%;
+    }
+  }
+  .add-buttons,
+  .edit-buttons {
     width: 60%;
   }
 }

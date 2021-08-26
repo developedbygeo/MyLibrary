@@ -15,7 +15,8 @@ body {
 
 p,
 label,
-button {
+button,
+input {
   font-size: 1.6rem;
 }
 
@@ -598,7 +599,7 @@ footer {
   }
   .add-book,
   .update-book {
-    width: 60%;
+    width: 40%;
   }
 }
 

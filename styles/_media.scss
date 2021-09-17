@@ -20,6 +20,18 @@
   .library {
     row-gap: 2vh;
   }
+
+  .my-stats-logo {
+    margin-left: 1rem;
+  }
+  .book-stats,
+  .pages-stats,
+  .author-stats,
+  .favorite-author-div,
+  .language-stats,
+  .date-stats {
+    margin-left: 1rem;
+  }
 }
 @media screen and (min-width: 500px) {
   .add-book,
